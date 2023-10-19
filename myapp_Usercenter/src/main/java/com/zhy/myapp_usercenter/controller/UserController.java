@@ -67,7 +67,7 @@ public class UserController {
     @PostMapping("/register")
     public CommonResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest){
         if(userRegisterRequest == null){
-            return  null;
+            throw new MyAppException(ErrorCode.REQUEST_NULL_ERROR);
         }
 //        long id = userService.userRegister(userRegisterRequest.getUserAccount(),
 //                userRegisterRequest.getUserPassword(), userRegisterRequest.getCheckPassword());
@@ -76,7 +76,7 @@ public class UserController {
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)){
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR);
         }
         long id = userService.userRegister(userAccount, userPassword, checkPassword);
         return ResponseUtils.success(id);
@@ -109,7 +109,7 @@ public class UserController {
 
     //todo 改成CommonResponse之后用户列表页无法识别 但是为什么login功能就能识别呢 注：是因为login之后的页面跳转依赖currentUser
     @GetMapping("/query")
-    public List<User> userQuery(String username, HttpServletRequest httpServletRequest){
+    public CommonResponse<List<User>> userQuery(String username, HttpServletRequest httpServletRequest){
         if (!isAdmin(httpServletRequest)){
             return null;
         }
@@ -119,7 +119,7 @@ public class UserController {
         }
         List<User> result = userService.list(queryWrapper);
         List<User> list = result.stream().map(user -> getSafeUser(user)).collect(Collectors.toList());
-        return list;
+        return ResponseUtils.success(list);
     }
 
     @PostMapping("/delete")
@@ -141,7 +141,7 @@ public class UserController {
     //todo 改用commonResponse之后无法访问管理员页面，而且前端获取不到后端返回的user，
     // 原因推测为返回类型改变，数据由直接返回改为封在data中
     @GetMapping("/current")
-    public User currentUser(HttpServletRequest httpServletRequest){
+    public CommonResponse<User> currentUser(HttpServletRequest httpServletRequest){
 
         User user = (User) httpServletRequest.getSession().getAttribute(UserConstantValue.LOGIN_STATUS_ON);
         if(user == null){
@@ -151,6 +151,6 @@ public class UserController {
         long id = user.getId();
         User currentUser = userService.getById(id);
         User result = getSafeUser(currentUser);
-        return result;
+        return ResponseUtils.success(result);
     }
 }

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MyAppException.class)
-    public CommonResponse<?> myAppExceptionHandler(MyAppException myAppException){
-        log.error("MyAppException: " + myAppException.getMessage(), myAppException);
-        return ResponseUtils.error(myAppException.getCode(), myAppException.getMessage(), myAppException.getDescription());
+    public CommonResponse<?> myAppExceptionHandler(MyAppException e){
+        log.error("MyAppException: " + e.getMessage(), e);
+        return ResponseUtils.error(e.getCode(), e.getMessage(), e.getDescription());
     }
 
 

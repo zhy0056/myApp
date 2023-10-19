@@ -3,6 +3,7 @@ package com.zhy.myapp_usercenter.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhy.myapp_usercenter.common.ErrorCode;
+import com.zhy.myapp_usercenter.common.ResponseUtils;
 import com.zhy.myapp_usercenter.exception.MyAppException;
 import com.zhy.myapp_usercenter.mapper.UserMapper;
 import com.zhy.myapp_usercenter.model.User;
@@ -87,19 +88,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //检查用户提交的账号、密码和密码确认是否为空
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             //System.out.println("用户名或密码不能为空!");
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR);
         }
 
         //检查用户名长度
         if (userAccount.length() < 4){
             //System.out.println("用户名长度不可小于4位！");
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
         }
 
         //检查密码长度
         if (userPassword.length() < 8 ){
             //System.out.println("密码长度不可小于8位!");
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
         }
 
 
@@ -108,13 +109,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Matcher matcher = pattern.matcher(userAccount);
         boolean found = matcher.find();
         if(found){
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号不能包含特殊字符！");
         }
 
         //两次密码输入是否相同
         if (!userPassword.equals(checkPassword)){
             //System.out.println("两次密码输入不同!");
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
         }
 
         //检查用户名是否重复，由于需要查询数据库放在最后
@@ -123,7 +124,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         long count = userMapper.selectCount(queryWrapper);
         if (count > 0){
             //System.out.println("该用户名已被注册!");
-            return -1;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "该账号已被注册！");
         }
 
         /**
@@ -141,7 +142,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //需要判断是否分配id，不然返回类型对应不上
         boolean judge = this.save(user);
         if (!judge){
-            return -1;
+            throw new MyAppException(ErrorCode.SYSTEM_ERROR);
         }
         //System.out.println("恭喜您注册成功！您的用户id为："+user.getId());
         return user.getId();
@@ -181,7 +182,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Matcher matcher = pattern.matcher(userAccount);
         boolean found = matcher.find();
         if(found){
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号不能包含特殊字符！");
         }
 
         //转换成md5再进行比对

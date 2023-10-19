@@ -19,6 +19,8 @@ declare namespace API {
     status?: string;
     type?: string;
     currentAuthority?: string;
+    msg?:string;
+    code?:number;
   };
 
   type RegisterResult = number;

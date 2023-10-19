@@ -199,7 +199,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(user == null){
             log.info("用户登录失败！");
             //System.out.println("用户登录失败！");
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
         }
         //脱敏
         User processedUser = getSafeUser(user);

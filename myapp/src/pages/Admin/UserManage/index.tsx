@@ -3,12 +3,12 @@ import { ProTable } from '@ant-design/pro-components';
 import {Image} from 'antd';
 import {userQuery} from "@/services/ant-design-pro/api";
 
-const valueEnum = {
-  0: 'close',
-  1: 'running',
-  2: 'online',
-  3: 'error',
-};
+// const valueEnum = {
+//   0: 'close',
+//   1: 'running',
+//   2: 'online',
+//   3: 'error',
+// };
 
 // export type TableListItem = {
 //   key: number;
@@ -126,7 +126,7 @@ export default () => {
       columns={columns}
       search={false}
       dateFormatter="string"
-      headerTitle="表格标题"
+      headerTitle="公告系统用户列表"
       // toolBarRender={() => [
       // ]}
     />

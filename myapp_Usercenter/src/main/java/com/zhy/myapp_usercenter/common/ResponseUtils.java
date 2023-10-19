@@ -9,7 +9,7 @@ public class ResponseUtils {
      * @return
      */
     public static <T> CommonResponse<T> success(T data){
-        return new CommonResponse<>(0,data,"success");
+        return new CommonResponse<>(0,data,"success", "请求执行成功");
     }
 
     /**

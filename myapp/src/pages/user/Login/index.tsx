@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       // 登录
       const user = await login({...values, type});
 
-      if (user) {
+      if (user.msg=="success") {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
@@ -55,6 +55,9 @@ const Login: React.FC = () => {
         };
         history.push(redirect || '/');
         return;
+      }
+      else{
+        message.error('用户名或密码错误！');
       }
     } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';

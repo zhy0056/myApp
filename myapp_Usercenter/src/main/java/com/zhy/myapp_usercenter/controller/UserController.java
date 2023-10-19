@@ -65,9 +65,9 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public Long userRegister(@RequestBody UserRegisterRequest userRegisterRequest){
+    public CommonResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest){
         if(userRegisterRequest == null){
-            throw new MyAppException(ErrorCode.REQUEST_NULL_ERROR);
+            return  null;
         }
 //        long id = userService.userRegister(userRegisterRequest.getUserAccount(),
 //                userRegisterRequest.getUserPassword(), userRegisterRequest.getCheckPassword());
@@ -79,22 +79,23 @@ public class UserController {
             return null;
         }
         long id = userService.userRegister(userAccount, userPassword, checkPassword);
-        return id;
+        return ResponseUtils.success(id);
     }
 
     @PostMapping("/login")
-    public User userLogin(@RequestBody UserLoginRequest userLoginRequest,
+    public CommonResponse<User> userLogin(@RequestBody UserLoginRequest userLoginRequest,
                           HttpServletRequest httpServletRequest){
         if(userLoginRequest == null){
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_NULL_ERROR);
         }
         String userAccount = userLoginRequest.getUserAccount();
         String userPassword = userLoginRequest.getUserPassword();
         if (StringUtils.isAnyBlank(userAccount, userPassword)){
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR);
         }
         User user = userService.userLogin(userAccount, userPassword, httpServletRequest);
-        return user;
+//        return new CommonResponse<>(0, user, "success", "登录成功");
+        return ResponseUtils.success(user);
     }
 
     @PostMapping("/logout")
@@ -106,7 +107,7 @@ public class UserController {
         return ResponseUtils.success(result);
     }
 
-
+    //todo 改成CommonResponse之后用户列表页无法识别 但是为什么login功能就能识别呢 注：是因为login之后的页面跳转依赖currentUser
     @GetMapping("/query")
     public List<User> userQuery(String username, HttpServletRequest httpServletRequest){
         if (!isAdmin(httpServletRequest)){
@@ -125,11 +126,11 @@ public class UserController {
     public CommonResponse<Boolean> userDelete(@RequestBody long id, HttpServletRequest httpServletRequest){
 
         if (!isAdmin(httpServletRequest)){
-            throw new MyAppException(ErrorCode.INVALID_AUTH);
+            return null;
         }
 
         if(id<=0){
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+            return null;
         }
 
         boolean result = userService.removeById(id);
@@ -137,6 +138,8 @@ public class UserController {
         return ResponseUtils.success(result);
     }
 
+    //todo 改用commonResponse之后无法访问管理员页面，而且前端获取不到后端返回的user，
+    // 原因推测为返回类型改变，数据由直接返回改为封在data中
     @GetMapping("/current")
     public User currentUser(HttpServletRequest httpServletRequest){
 

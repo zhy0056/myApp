@@ -20,7 +20,7 @@
     access: 'canAdmin',
     component: './Admin',
     routes: [
-      {path: '/admin/user-manage', name: '用户管理', icon: 'smile', component: './Admin/UserManage'},
+      {path: '/admin/user-manage', name: '用户列表', icon: 'smile', component: './Admin/UserManage'},
       {component: './404'},
     ],
   },

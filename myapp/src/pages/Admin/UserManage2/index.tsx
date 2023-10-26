@@ -1,145 +1,48 @@
-// import { DownOutlined } from '@ant-design/icons';
-// import type { ProColumns } from '@ant-design/pro-components';
-// import { ProTable, TableDropdown } from '@ant-design/pro-components';
-// import {Button, Image} from 'antd';
-// import {userQuery} from "@/services/ant-design-pro/api";
-// import CurrentUser = API.CurrentUser;
-// import React from "react";
+// import { AudioOutlined } from '@ant-design/icons';
+// import React from 'react';
+// import { Input, Space } from 'antd';
+// import type { SearchProps } from '../Search';
 //
-// const valueEnum = {
-//   0: 'close',
-//   1: 'running',
-//   2: 'online',
-//   3: 'error',
-// };
+// const { Search } = Input;
 //
-// // export type TableListItem = {
-// //   key: number;
-// //   name: string;
-// //   containers: number;
-// //   creator: string;
-// //   status: string;
-// //   createdAt: number;
-// //   memo: string;
-// // };
+// const suffix = (
+//   <AudioOutlined
+//     style={{
+//       fontSize: 16,
+//       color: '#1677ff',
+//     }}
+//   />
+// );
 //
-// //const tableListDataSource: TableListItem[] = [];
-// const tableListDataSource: API.CurrentUser[] = await userQuery();
+// const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 //
-// //const creators = ['付小小', '曲丽丽', '林东东', '陈帅帅', '兼某某'];
-//
-// // for (let i = 0; i < 5; i += 1) {
-// //   tableListDataSource.push({
-// //     id: 1,
-// //     username: 'AppName',
-// //     userAccount: 'string',
-// //     avatar: 'string',
-// //     gender: 1,
-// //     phone: 'string',
-// //     email: 'string',
-// //     userStatus: 0,
-// //     createTime: Date,
-// //     authority: 1,
-// //     creator: creators[Math.floor(Math.random() * creators.length)],
-// //     status: valueEnum[Math.floor(Math.random() * 10) % 4],
-// //     createdAt: Date.now() - Math.floor(Math.random() * 100000),
-// //     memo:
-// //       i % 2 === 1
-// //         ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴'
-// //         : '简短备注文案',
-// //   });
-// // }
-//
-//
-// const columns: ProColumns<API.CurrentUser>[] = [
-//     {
-//       dataIndex: 'id',
-//       valueType: 'indexBorder',
-//       width: 48,
-//     },
-//     {
-//       title: '用户名',
-//       dataIndex: 'username',
-//       copyable: true,
-//     },
-//     {
-//       title: '用户账户',
-//       dataIndex: 'userAccount',
-//       copyable: true,
-//     },
-//     {
-//       title: '头像',
-//       dataIndex: 'avatar',
-//       render: (_, record) => (
-//         <div>
-//           <Image src={record.avatar} width={60} />
-//         </div>
-//       ),
-//     },
-//     {
-//       title: '性别',
-//       dataIndex: 'gender',
-//       valueType: 'select',
-//       valueEnum: {
-//         0: { text: '女' },
-//         1: {text: '男',},
-//       },
-//     },
-//     {
-//       title: '电话',
-//       dataIndex: 'phone',
-//       copyable: true,
-//     },
-//     {
-//       title: '邮件',
-//       dataIndex: 'email',
-//       copyable: true,
-//     },
-//     {
-//       title: '状态',
-//       dataIndex: 'userStatus',
-//     },
-//     {
-//       title: '身份',
-//       dataIndex: 'authority',
-//       valueType: 'select',
-//       valueEnum: {
-//         0: { text: '普通用户', status: 'Success' },
-//         1: {
-//           text: '管理员',
-//           status: 'Error',
-//         },
-//       },
-//     },
-//     {
-//       title: '创建时间',
-//       dataIndex: 'createTime',
-//       valueType: 'dateTime',
-//     },
-// ];
-//
-// export default () => {
-//   return (
-//     <ProTable<CurrentUser>
-//       dataSource={tableListDataSource}
-//       rowKey="key"
-//       pagination={{
-//         showQuickJumper: true,
-//       }}
-//       columns={columns}
-//       search={false}
-//       dateFormatter="string"
-//       headerTitle="表格标题"
-//       toolBarRender={() => [
-//         <Button key="show">查看日志</Button>,
-//         <Button key="out">
-//           导出数据
-//           <DownOutlined />
-//         </Button>,
-//         <Button type="primary" key="primary">
-//           创建应用
-//         </Button>,
-//       ]}
+// const App: React.FC = () => (
+//   <Space direction="vertical">
+//     <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
+//     <Search placeholder="input search text" allowClear onSearch={onSearch} style={{ width: 200 }} />
+//     <Search
+//       addonBefore="https://"
+//       placeholder="input search text"
+//       allowClear
+//       onSearch={onSearch}
+//       style={{ width: 304 }}
 //     />
-//   );
-// };
+//     <Search placeholder="input search text" onSearch={onSearch} enterButton />
+//     <Search
+//       placeholder="input search text"
+//       allowClear
+//       enterButton="Search"
+//       size="large"
+//       onSearch={onSearch}
+//     />
+//     <Search
+//       placeholder="input search text"
+//       enterButton="Search"
+//       size="large"
+//       suffix={suffix}
+//       onSearch={onSearch}
+//     />
+//   </Space>
+// );
+//
+// export default App;

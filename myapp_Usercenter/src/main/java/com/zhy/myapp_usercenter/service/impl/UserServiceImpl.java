@@ -88,19 +88,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //检查用户提交的账号、密码和密码确认是否为空
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             //System.out.println("用户名或密码不能为空!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR);
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR, "账号或密码不可为空！");
         }
 
         //检查用户名长度
         if (userAccount.length() < 4){
             //System.out.println("用户名长度不可小于4位！");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
         }
 
         //检查密码长度
         if (userPassword.length() < 8 ){
             //System.out.println("密码长度不可小于8位!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "密码长度不可小于8位！");
         }
 
 
@@ -115,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //两次密码输入是否相同
         if (!userPassword.equals(checkPassword)){
             //System.out.println("两次密码输入不同!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "两次密码输入不同!");
         }
 
         //检查用户名是否重复，由于需要查询数据库放在最后
@@ -142,7 +142,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //需要判断是否分配id，不然返回类型对应不上
         boolean judge = this.save(user);
         if (!judge){
-            throw new MyAppException(ErrorCode.SYSTEM_ERROR);
+            throw new MyAppException(ErrorCode.SYSTEM_ERROR, "系统错误!");
         }
         //System.out.println("恭喜您注册成功！您的用户id为："+user.getId());
         return user.getId();
@@ -161,19 +161,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //首先校验用户名、密码是否为空
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             //System.out.println("用户名或密码不能为空!");
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
         }
 
         //检查用户名长度
         if (userAccount.length() < 4){
             //System.out.println("用户名长度不可小于4位！");
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
         }
 
         //检查密码长度
         if (userPassword.length() < 8 ){
             //System.out.println("密码长度不可小于8位!");
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "密码长度不可小于8位！");
         }
 
 
@@ -200,7 +200,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(user == null){
             log.info("用户登录失败！");
             //System.out.println("用户登录失败！");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号或密码错误！");
         }
         //脱敏
         User processedUser = getSafeUser(user);

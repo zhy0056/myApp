@@ -21,6 +21,7 @@
     component: './Admin',
     routes: [
       {path: '/admin/user-manage', name: '用户列表', icon: 'smile', component: './Admin/UserManage'},
+      {path: '/admin/user-search', name: '用户查找及删除', icon: 'smile', component: './Admin/UserSearch'},
       {component: './404'},
     ],
   },

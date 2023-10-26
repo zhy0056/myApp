@@ -39,7 +39,7 @@ public class UserController {
     private boolean isAdmin(HttpServletRequest httpServletRequest){
         User user = (User) httpServletRequest.getSession().getAttribute(UserConstantValue.LOGIN_STATUS_ON);
         if(user == null || user.getAuthority() != UserConstantValue.ADMIN){
-            return false;
+            throw new MyAppException(ErrorCode.NOT_LOGIN);
         }
         return true;
     }
@@ -111,11 +111,29 @@ public class UserController {
     @GetMapping("/query")
     public CommonResponse<List<User>> userQuery(String username, HttpServletRequest httpServletRequest){
         if (!isAdmin(httpServletRequest)){
-            return null;
+            throw new MyAppException(ErrorCode.INVALID_AUTH, "权限不足，仅管理员可以访问！");
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(username)) {
             queryWrapper.like("username", username);
+        }
+        List<User> result = userService.list(queryWrapper);
+        List<User> list = result.stream().map(user -> getSafeUser(user)).collect(Collectors.toList());
+        return ResponseUtils.success(list);
+    }
+//@RequestParam(name = "username", required = false)
+    @GetMapping("/search")
+    public CommonResponse<List<User>> userSearch(String username, String userAccount,
+                                                 HttpServletRequest httpServletRequest){
+        if (!isAdmin(httpServletRequest)){
+            throw new MyAppException(ErrorCode.INVALID_AUTH, "权限不足，仅管理员可以访问！");
+        }
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(username)) {
+            queryWrapper.like("username", username);
+        }
+        if (StringUtils.isNotBlank(userAccount)) {
+            queryWrapper.like("userAccount", userAccount);
         }
         List<User> result = userService.list(queryWrapper);
         List<User> list = result.stream().map(user -> getSafeUser(user)).collect(Collectors.toList());
@@ -126,11 +144,11 @@ public class UserController {
     public CommonResponse<Boolean> userDelete(@RequestBody long id, HttpServletRequest httpServletRequest){
 
         if (!isAdmin(httpServletRequest)){
-            return null;
+            throw new MyAppException(ErrorCode.INVALID_AUTH, "权限不足，仅管理员可以访问！");
         }
 
         if(id<=0){
-            return null;
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "id不存在!");
         }
 
         boolean result = userService.removeById(id);
@@ -145,7 +163,7 @@ public class UserController {
 
         User user = (User) httpServletRequest.getSession().getAttribute(UserConstantValue.LOGIN_STATUS_ON);
         if(user == null){
-            return null;
+            throw new MyAppException(ErrorCode.NOT_LOGIN);
         }
 
         long id = user.getId();

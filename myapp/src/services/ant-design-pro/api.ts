@@ -5,7 +5,7 @@ import request from "@/plugins/globalRequest";
 
 /** 获取当前的用户 GET /api/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
-    return request<API.CommonResponse<API.CurrentUser>>('/api/user/current', {
+    return request<API.CurrentUser>('/api/user/current', {
         method: 'GET',
         ...(options || {}),
     });
@@ -15,7 +15,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-    return request<API.CommonResponse<number>>('/api/user/logout', {
+    return request<number>('/api/user/logout', {
         method: 'POST',
         ...(options || {}),
     });
@@ -23,7 +23,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/user/login */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-    return request<API.CommonResponse<API.LoginResult>>('/api/user/login', {
+    return request<API.LoginResult>('/api/user/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
 
 /** 注册接口 POST /api/user/register */
 export async function register(body: API.RegisterParams, options?: { [key: string]: any }) {
-    return request<API.CommonResponse<API.RegisterResult>>('/api/user/register', {
+    return request<API.RegisterResult>('/api/user/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -51,6 +51,13 @@ export async function userQuery(options?: { [key: string]: any }) {
         method: 'GET',
         ...(options || {}),
     });
+}
+
+export async function userSearch(params?: { [key: string]: any }) {
+  return request<API.CurrentUser[]>('/api/user/search', {
+    method: 'GET',
+    params: {...params},
+  });
 }
 // export async function userQuery(body: API.QueryParams, options?: { [key: string]: any }) {
 //   return request<API.CurrentUser>('/api/user/query', {

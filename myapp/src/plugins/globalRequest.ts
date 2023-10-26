@@ -49,7 +49,7 @@ request.interceptors.response.use(async (response, options): Promise<any> => {
         return res.data;
     }
     if (res.code === 4003) {
-        message.error('请先登录');
+        message.error('需要登录才能访问！');
         history.replace({
             pathname: '/user/login',
             search: stringify({

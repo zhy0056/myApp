@@ -71,7 +71,7 @@ declare namespace API {
     };
 
     type QueryParams = {
-        userName?: string;
+        username?: string;
         type?: string;
     };
 

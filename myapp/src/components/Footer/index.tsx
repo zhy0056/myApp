@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
       links={[
         {
           key: 'github',
-          title: <><GithubOutlined/> zhy GitHub</>,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          title: <><GithubOutlined/> zhy myApp GitHub</>,
+          href: 'https://github.com/zhy0056/myApp/',
           blankTarget: true,
         },
       ]}

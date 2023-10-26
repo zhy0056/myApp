@@ -110,6 +110,19 @@ const Register: React.FC = () => {
                   },
                 ]}
               />
+              <div
+                style={{
+                  marginBottom: 24,
+                }}
+              >
+                <a
+                  style={{
+                    float: 'left',
+                  }}
+                >
+                  <a href="/user/login">已有账号？去登录</a>
+                </a>
+              </div>
             </>
           )}
         </LoginForm>

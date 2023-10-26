@@ -56,9 +56,9 @@ const Login: React.FC = () => {
                 history.push(redirect || '/');
                 return;
             }
-            else{
-                message.error('用户名或密码错误！');
-            }
+            // else{
+            //     message.error('用户名或密码错误！');
+            // }
         } catch (error) {
             const defaultLoginFailureMessage = '登录失败，请重试！';
             message.error(defaultLoginFailureMessage);
@@ -93,7 +93,7 @@ const Login: React.FC = () => {
                                     size: 'large',
                                     prefix: <UserOutlined className={styles.prefixIcon} />,
                                 }}
-                                placeholder={'请输入账号'}
+                                placeholder={'请输入账号（zhyadmin）'}
                                 rules={[
                                     {
                                         required: true,
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
                                     size: 'large',
                                     prefix: <LockOutlined className={styles.prefixIcon} />,
                                 }}
-                                placeholder={'请输入密码'}
+                                placeholder={'请输入密码（zhy103766）'}
                                 rules={[
                                     {
                                         required: true,

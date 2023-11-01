@@ -12,7 +12,7 @@ const Settings: LayoutSettings & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '公告系统',
+  title: '学生信息管理系统',
   pwa: false,
   logo: "https://img0.baidu.com/it/u=249424423,2350045638&fm=253&fmt=auto&app=138&f=JPEG?w=366&h=275",
 

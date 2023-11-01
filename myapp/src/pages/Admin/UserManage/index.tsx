@@ -55,12 +55,12 @@ const columns: ProColumns<API.CurrentUser>[] = [
     width: 48,
   },
   {
-    title: '用户名',
-    dataIndex: 'username',
+    title: '姓名',
+    dataIndex: 'name',
     copyable: true,
   },
   {
-    title: '用户账号',
+    title: '学号',
     dataIndex: 'userAccount',
     copyable: true,
   },
@@ -101,7 +101,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'authority',
     valueType: 'select',
     valueEnum: {
-      0: { text: '普通用户', status: 'Success' },
+      0: { text: '学生', status: 'Success' },
       1: {
         text: '管理员',
         status: 'Error',
@@ -126,7 +126,7 @@ export default () => {
       columns={columns}
       search={false}
       dateFormatter="string"
-      headerTitle="公告系统用户列表"
+      headerTitle="学生列表"
       // toolBarRender={() => [
       // ]}
     />

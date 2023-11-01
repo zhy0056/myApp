@@ -1,23 +1,25 @@
-import Footer from '@/components/Footer';
-import {register} from '@/services/ant-design-pro/api';
 import {LockOutlined, UserOutlined,} from '@ant-design/icons';
-import {LoginForm, ProFormText,} from '@ant-design/pro-components';
 import {message, Tabs} from 'antd';
 import React, {useState} from 'react';
 import {history} from 'umi';
+import Footer from '@/components/Footer';
+import {register} from '@/services/ant-design-pro/api';
 import styles from './index.less';
+import {LoginForm, ProFormText} from '@ant-design/pro-form';
 import {LOGO} from "@/constant";
 
 const Register: React.FC = () => {
   const [type, setType] = useState<string>('account');
 
+  // 表单提交
   const handleSubmit = async (values: API.RegisterParams) => {
-    const { userPassword, checkPassword} = values;
-    //校验
-    if (userPassword !== checkPassword){
-      message.error('两次密码输入不一致');
+    const {userPassword, checkPassword} = values;
+    // 校验
+    if (userPassword !== checkPassword) {
+      message.error('两次输入的密码不一致');
       return;
     }
+
     try {
       // 注册
       const id = await register(values);
@@ -27,12 +29,11 @@ const Register: React.FC = () => {
 
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
-        const { query } = history.location;
+        const {query} = history.location;
         history.push({
-          pathname:'/user/login',
+          pathname: '/user/login',
           query,
-        }
-        );
+        });
         return;
       }
     } catch (error: any) {
@@ -40,50 +41,67 @@ const Register: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <LoginForm
-          //更改了LoginForm组件中的值
           submitter={{
-            searchConfig:{
+            searchConfig: {
               submitText: '注册'
             }
           }}
           logo={<img alt="logo" src={LOGO} />}
-          title="公告系统"
-          subTitle={'随时查看最新的管理员公告'}
+          title="学生信息管理系统"
+          subTitle={'便捷地搜索管理学生用户'}
+          initialValues={{
+            autoLogin: true,
+          }}
           onFinish={async (values) => {
             await handleSubmit(values as API.RegisterParams);
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
-            <Tabs.TabPane key="account" tab={'使用账号密码进行注册'} />
+            <Tabs.TabPane key="account" tab={'学号密码注册'}/>
           </Tabs>
-
           {type === 'account' && (
             <>
               <ProFormText
                 name="userAccount"
                 fieldProps={{
                   size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                  prefix: <UserOutlined className={styles.prefixIcon}/>,
                 }}
-                placeholder={'账号不小于4位，仅含数字、字母及下划线'}
+                placeholder="请输入学号"
                 rules={[
                   {
                     required: true,
-                    message: '账号是必填项！',
+                    message: '学号是必填项！',
                   },
                 ]}
               />
+              <ProFormText
+                name="name"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder={'请输入姓名！'}
+                rules={[
+                  {
+                    required: true,
+                    message: '姓名是必填项！',
+                  },
+                ]}
+              />
+
               <ProFormText.Password
                 name="userPassword"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined className={styles.prefixIcon}/>,
                 }}
-                placeholder={'密码应大于8位'}
+                placeholder="请输入密码"
                 rules={[
                   {
                     required: true,
@@ -100,13 +118,18 @@ const Register: React.FC = () => {
                 name="checkPassword"
                 fieldProps={{
                   size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                  prefix: <LockOutlined className={styles.prefixIcon}/>,
                 }}
-                placeholder={'请再次输入密码'}
+                placeholder="请再次输入密码"
                 rules={[
                   {
                     required: true,
                     message: '确认密码是必填项！',
+                  },
+                  {
+                    min: 8,
+                    type: 'string',
+                    message: '长度不能小于 8',
                   },
                 ]}
               />
@@ -120,7 +143,7 @@ const Register: React.FC = () => {
                     float: 'left',
                   }}
                 >
-                  <a href="/user/login">已有账号？去登录</a>
+                  <a href="/user/login">已注册？去登录</a>
                 </a>
               </div>
             </>
@@ -132,3 +155,4 @@ const Register: React.FC = () => {
   );
 };
 export default Register;
+

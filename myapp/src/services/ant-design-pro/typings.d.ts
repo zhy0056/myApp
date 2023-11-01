@@ -4,7 +4,7 @@
 declare namespace API {
     type CurrentUser = {
         id: number;
-        username: string;
+        name: string;
         userAccount: string;
         avatar?: string;
         gender: number;
@@ -23,6 +23,10 @@ declare namespace API {
 
 
     type RegisterResult = number;
+
+    type UpdateResult = boolean;
+
+    type DeleteResult = boolean;
 
     type PageParams = {
         current?: number;
@@ -63,15 +67,39 @@ declare namespace API {
         type?: string;
     };
 
+    type DeleteParams = {
+      userAccount?: string;
+      type?: string;
+    };
+
     type RegisterParams = {
         userAccount?: string;
         userPassword?: string;
         checkPassword?: string;
+        name?: string;
         type?: string;
     };
 
+    type BaseResponse<T> = {
+      code: number,
+      data: T,
+      message: string,
+      description: string,
+    }
+
+    type UserUpdateRequest = {
+      id: number;
+      name?: string;
+      userPassword?: string;
+      avatar?: string;
+      gender?: number;
+      phone?: string;
+      authority: number;
+
+    }
+
     type QueryParams = {
-        username?: string;
+        name?: string;
         type?: string;
     };
 

@@ -5,7 +5,7 @@ import request from "@/plugins/globalRequest";
 
 /** 获取当前的用户 GET /api/user/current */
 export async function currentUser(options?: { [key: string]: any }) {
-    return request<API.CurrentUser>('/api/user/current', {
+    return request<API.CommonResponse<API.CurrentUser>>('/api/user/current', {
         method: 'GET',
         ...(options || {}),
     });
@@ -31,6 +31,17 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
         data: body,
         ...(options || {}),
     });
+}
+
+export async function deleteUser(body: API.DeleteParams, options?: { [key: string]: any }) {
+  return request<API.DeleteResult>('/api/user/delete', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
 }
 
 /** 注册接口 POST /api/user/register */
@@ -69,6 +80,16 @@ export async function userSearch(params?: { [key: string]: any }) {
 //     ...(options || {}),
 //   });
 // }
+
+export async function updateLoginUser(params: API.CurrentUser) {
+  return request<boolean>(`/api/user/update`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: params,
+  });
+}
 
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {

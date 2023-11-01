@@ -13,6 +13,7 @@ import com.zhy.myapp_usercenter.model.request.UserRegisterRequest;
 import com.zhy.myapp_usercenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import com.zhy.myapp_usercenter.constant.UserConstantValue;
 
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 public class UserController {
 
+
+    private static String salt = "zhang2000hai05yang06";
 
     //controller要调用service，所以要引入
     @Resource
@@ -50,7 +53,7 @@ public class UserController {
         }
         User processedUser = new User();
         processedUser.setId(user.getId());
-        processedUser.setUsername(user.getUsername());
+        processedUser.setName(user.getName());
         processedUser.setUserAccount(user.getUserAccount());
         processedUser.setAvatar(user.getAvatar());
         processedUser.setGender(user.getGender());
@@ -75,10 +78,13 @@ public class UserController {
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
+        String name = userRegisterRequest.getName();
+
+
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)){
             throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR);
         }
-        long id = userService.userRegister(userAccount, userPassword, checkPassword);
+        long id = userService.userRegister(userAccount, userPassword, checkPassword, name);
         return ResponseUtils.success(id);
     }
 
@@ -109,28 +115,28 @@ public class UserController {
 
     //todo 改成CommonResponse之后用户列表页无法识别 但是为什么login功能就能识别呢 注：是因为login之后的页面跳转依赖currentUser
     @GetMapping("/query")
-    public CommonResponse<List<User>> userQuery(String username, HttpServletRequest httpServletRequest){
+    public CommonResponse<List<User>> userQuery(String name, HttpServletRequest httpServletRequest){
         if (!isAdmin(httpServletRequest)){
             throw new MyAppException(ErrorCode.INVALID_AUTH, "权限不足，仅管理员可以访问！");
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        if (StringUtils.isNotBlank(username)) {
-            queryWrapper.like("username", username);
+        if (StringUtils.isNotBlank(name)) {
+            queryWrapper.like("name", name);
         }
         List<User> result = userService.list(queryWrapper);
         List<User> list = result.stream().map(user -> getSafeUser(user)).collect(Collectors.toList());
         return ResponseUtils.success(list);
     }
-//@RequestParam(name = "username", required = false)
+//@RequestParam(name = "name", required = false)
     @GetMapping("/search")
-    public CommonResponse<List<User>> userSearch(String username, String userAccount,
+    public CommonResponse<List<User>> userSearch(String name, String userAccount,
                                                  HttpServletRequest httpServletRequest){
         if (!isAdmin(httpServletRequest)){
             throw new MyAppException(ErrorCode.INVALID_AUTH, "权限不足，仅管理员可以访问！");
         }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        if (StringUtils.isNotBlank(username)) {
-            queryWrapper.like("username", username);
+        if (StringUtils.isNotBlank(name)) {
+            queryWrapper.like("name", name);
         }
         if (StringUtils.isNotBlank(userAccount)) {
             queryWrapper.like("userAccount", userAccount);
@@ -170,5 +176,28 @@ public class UserController {
         User currentUser = userService.getById(id);
         User result = getSafeUser(currentUser);
         return ResponseUtils.success(result);
+    }
+
+
+    @PutMapping("/update")
+    private CommonResponse<Boolean> updateCurrentUser(@RequestBody User user,HttpServletRequest request){
+        User loginUser = (User)request.getSession().getAttribute(UserConstantValue.LOGIN_STATUS_ON);
+        int auth = loginUser.getAuthority();
+        if(loginUser == null){
+            throw  new MyAppException(ErrorCode.NOT_LOGIN);
+        }
+        Long id = loginUser.getId();
+        if(id <= 0){
+            throw  new MyAppException(ErrorCode.REQUEST_VALUE_ERROR);
+        }
+        if(user.getUserPassword()!= null){
+            String encodedPassword = DigestUtils.md5DigestAsHex(
+                    (salt + salt + user.getUserPassword() + salt + salt).getBytes());
+            user.setUserPassword(encodedPassword);
+        }
+        user.setId(id);
+        user.setAuthority(auth);
+        boolean b = userService.updateById(user);
+        return ResponseUtils.success(b);
     }
 }

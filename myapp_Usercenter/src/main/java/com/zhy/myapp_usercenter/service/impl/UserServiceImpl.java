@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private static String salt = "zhang2000hai05yang06";
-    final String inValidAccount = "[!@#$%^&*()]";
+    final String inValidAccount = "[!@#$%^&*()_]";
 
     @Resource
     private UserMapper userMapper;
@@ -45,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //        //检查用户名长度
 //        if (userAccount.length() < 4){
 //            //System.out.println("用户名长度不可小于4位！");
-//            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位");
+//            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号长度不可小于4位");
 //        }
 //
 //        //检查密码长度
@@ -65,7 +65,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         User processedUser = new User();
         processedUser.setId(user.getId());
-        processedUser.setUsername(user.getUsername());
+        processedUser.setName(user.getName());
         processedUser.setUserAccount(user.getUserAccount());
         processedUser.setAvatar(user.getAvatar());
         processedUser.setGender(user.getGender());
@@ -79,22 +79,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(String userAccount, String userPassword, String checkPassword, String name) {
 
 
         /**
-         * 1.校验账号和密码
+         * 1.校验学号和密码
          */
-        //检查用户提交的账号、密码和密码确认是否为空
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        //检查用户提交的学号、密码和密码确认是否为空
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, name)) {
             //System.out.println("用户名或密码不能为空!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR, "账号或密码不可为空！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_NULL_ERROR, "学号、姓名或密码不可为空！");
         }
 
-        //检查用户名长度
-        if (userAccount.length() < 4){
+        //检查学号长度
+        if (userAccount.length() < 6){
             //System.out.println("用户名长度不可小于4位！");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号长度不可小于6位！");
         }
 
         //检查密码长度
@@ -109,7 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Matcher matcher = pattern.matcher(userAccount);
         boolean found = matcher.find();
         if(found){
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号不能包含特殊字符！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号不能包含特殊字符！");
         }
 
         //两次密码输入是否相同
@@ -124,7 +124,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         long count = userMapper.selectCount(queryWrapper);
         if (count > 0){
             //System.out.println("该用户名已被注册!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "该账号已被注册！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "该学号已被注册！");
         }
 
         /**
@@ -139,6 +139,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         user.setUserAccount(userAccount);
         user.setUserPassword(encodedPassword);
+        user.setName(name);
+        user.setAvatar("https://img2.baidu.com/it/u=3660282162,1838273748&fm=253&fmt=auto&app=138&f=PNG?w=275&h=275");
         //需要判断是否分配id，不然返回类型对应不上
         boolean judge = this.save(user);
         if (!judge){
@@ -161,13 +163,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         //首先校验用户名、密码是否为空
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             //System.out.println("用户名或密码不能为空!");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号长度不可小于4位！");
         }
 
         //检查用户名长度
         if (userAccount.length() < 4){
             //System.out.println("用户名长度不可小于4位！");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号长度不可小于4位！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号长度不可小于4位！");
         }
 
         //检查密码长度
@@ -182,7 +184,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Matcher matcher = pattern.matcher(userAccount);
         boolean found = matcher.find();
         if(found){
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号不能包含特殊字符！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号不能包含特殊字符！");
         }
 
         //转换成md5再进行比对
@@ -200,7 +202,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(user == null){
             log.info("用户登录失败！");
             //System.out.println("用户登录失败！");
-            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "账号或密码错误！");
+            throw new MyAppException(ErrorCode.REQUEST_VALUE_ERROR, "学号或密码错误！");
         }
         //脱敏
         User processedUser = getSafeUser(user);

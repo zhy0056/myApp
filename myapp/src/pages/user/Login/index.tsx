@@ -72,18 +72,18 @@ const Login: React.FC = () => {
             <div className={styles.content}>
                 <LoginForm
                     logo={<img alt="logo" src={LOGO} />}
-                    title="公告系统"
-                    subTitle={'随时查看最新的管理员公告'}
+                    title="学生信息管理系统"
+                    subTitle={'便捷地搜索管理学生用户'}
                     onFinish={async (values) => {
                         await handleSubmit(values as API.LoginParams);
                     }}
                 >
                     <Tabs activeKey={type} onChange={setType}>
-                        <Tabs.TabPane key="account" tab={'账号密码登录'} />
+                        <Tabs.TabPane key="account" tab={'学号密码登录'} />
                     </Tabs>
 
                     {status === 'error' && loginType === 'account' && (
-                        <LoginMessage content={'错误的账号和密码'} />
+                        <LoginMessage content={'错误的学号和密码'} />
                     )}
                     {type === 'account' && (
                         <>
@@ -93,11 +93,11 @@ const Login: React.FC = () => {
                                     size: 'large',
                                     prefix: <UserOutlined className={styles.prefixIcon} />,
                                 }}
-                                placeholder={'请输入账号（zhyadmin）'}
+                                placeholder={'请输入学号（zhyadmin）'}
                                 rules={[
                                     {
                                         required: true,
-                                        message: '账号是必填项！',
+                                        message: '学号是必填项！',
                                     },
                                 ]}
                             />

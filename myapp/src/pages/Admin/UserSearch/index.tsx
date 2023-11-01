@@ -1,10 +1,8 @@
 import { useRef } from 'react';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import { ProTable, TableDropdown } from '@ant-design/pro-components';
 import {userSearch} from "@/services/ant-design-pro/api";
 import {Image} from "antd";
-
-
 const columns: ProColumns<API.CurrentUser>[] = [
   {
     dataIndex: 'id',
@@ -14,12 +12,12 @@ const columns: ProColumns<API.CurrentUser>[] = [
 
   },
   {
-    title: '用户名',
-    dataIndex: 'username',
+    title: '姓名',
+    dataIndex: 'name',
     copyable: true,
   },
   {
-    title: '用户账号',
+    title: '学号',
     dataIndex: 'userAccount',
     copyable: true,
   },
@@ -68,7 +66,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     valueType: 'select',
     search: false,
     valueEnum: {
-      0: { text: '普通用户', status: 'Success' },
+      0: { text: '学生', status: 'Success' },
       1: {
         text: '管理员',
         status: 'Error',
@@ -84,17 +82,41 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: '操作',
     valueType: 'option',
+    key: 'option',
     render: (text, record, _, action) => [
-      <a
-        key="editable"
-        onClick={() => {
-          action?.startEditable?.(record.id);
-        }}
-      >
-        删除用户
-      </a>,
+      <TableDropdown
+        key="actionGroup"
+        // onSelect={async (menus: string,values: API.DeleteParams) => {
+        //   //const handleSubmit = async (values: API.LoginParams) => {
+        //     if (menus === 'delete') {
+        //     const isDelete = await deleteUser({...values});
+        //     if(isDelete){
+        //       const defaultDeleteSuccessMessage = '删除成功！';
+        //       message.success(defaultDeleteSuccessMessage);
+        //     }
+        //   }
+        //   action?.reload();
+        // }}
+        menus={[
+          { key: 'delete', name: '删除' },
+        ]}
+      />,
     ],
   },
+  // {
+  //   title: '操作',
+  //   valueType: 'option',
+  //   render: (text, record, _, action) => [
+  //     <a
+  //       key="editable"
+  //       onClick={() => {
+  //         action?.startEditable?.(record.id);
+  //       }}
+  //     >
+  //       删除用户
+  //     </a>,
+  //   ],
+  // },
 ];
 
 export default () => {

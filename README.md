@@ -52,7 +52,7 @@
 - 大学生竞赛管理系统（与另一个仓库CMSys结合）
 - 学生考勤系统
 
-![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+![Image text]([https://github.com/your_github/address/blob/master/image/1.png](https://github.com/zhy0056/myApp/blob/main/images/1.png))
 
 ![Image text](https://github.com/your_github/address/blob/master/image/1.png)
 

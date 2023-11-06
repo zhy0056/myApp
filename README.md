@@ -52,7 +52,7 @@
 - 大学生竞赛管理系统（与另一个仓库CMSys结合）
 - 学生考勤系统
 
-<img src="D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\8ee3dc213d0f9ad5bccc9537cb87f4c.png" alt="8ee3dc213d0f9ad5bccc9537cb87f4c" style="zoom:50%;" />
+[<img src="D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\8ee3dc213d0f9ad5bccc9537cb87f4c.png" alt="8ee3dc213d0f9ad5bccc9537cb87f4c" style="zoom:50%;" />](https://github.com/zhy0056/myApp/blob/main/images/1.png)
 
 <img src="D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\f25a1232aa2f0902e0001d509d7f6d3.png" alt="f25a1232aa2f0902e0001d509d7f6d3" style="zoom:60%;" />
 

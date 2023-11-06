@@ -52,6 +52,7 @@
 - 大学生竞赛管理系统（与另一个仓库CMSys结合）
 - 学生考勤系统
 
+<<<<<<< HEAD
 ![Image](images/1.png)
 
 ![Image](images/2.png)
@@ -63,6 +64,19 @@
 ![Image](images/5.png)
 
 ![Image](images/6.jpg)
+=======
+![Image text]([https://github.com/your_github/address/blob/master/image/1.png](https://github.com/zhy0056/myApp/blob/main/images/1.png))
+
+![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+
+![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+
+![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+
+![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+
+![Image text](https://github.com/your_github/address/blob/master/image/1.png)
+>>>>>>> 9c433bce93a69d8fe07d8437378fa2dcf3994879
 
 ## III. 技术选型
 

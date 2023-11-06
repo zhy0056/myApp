@@ -52,17 +52,17 @@
 - 大学生竞赛管理系统（与另一个仓库CMSys结合）
 - 学生考勤系统
 
-<img src="D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\8ee3dc213d0f9ad5bccc9537cb87f4c.png" alt="8ee3dc213d0f9ad5bccc9537cb87f4c" style="zoom:50%;" />
+![Image](images/1.png)
 
-<img src="D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\f25a1232aa2f0902e0001d509d7f6d3.png" alt="f25a1232aa2f0902e0001d509d7f6d3" style="zoom:60%;" />
+![Image](images/2.png)
 
-![fe47fe84c02086df6b041c69843bdc7](D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\fe47fe84c02086df6b041c69843bdc7.png)
+![Image](images/3.png)
 
-![bcd72ce586f6f16b6347b48b4258d45](D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\bcd72ce586f6f16b6347b48b4258d45.png)
+![Image](images/4.png)
 
-![6115cbfd2c1f36efef91e6213807348](D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\6115cbfd2c1f36efef91e6213807348.png)
+![Image](images/5.png)
 
-![948022417ce77cf20e1faa5aeb08b06](D:\WeChat\WeChat Files\wxid_otxgnbbqk19b22\FileStorage\Temp\948022417ce77cf20e1faa5aeb08b06.jpg)
+![Image](images/6.jpg)
 
 ## III. 技术选型
 

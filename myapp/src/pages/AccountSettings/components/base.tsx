@@ -12,38 +12,38 @@ import { useRequest } from 'umi';
 import styles from './BaseView.less';
 import {currentUser, updateLoginUser} from "@/services/ant-design-pro/api";
 
-// 头像组件 方便以后独立，增加裁剪之类的功能
-// const AvatarView = ({ avatar }: { avatar: string }) => (
-//   <>
-//     <div className={styles.avatar_title}>头像</div>
-//     <div className={styles.avatar}>
-//       <img src={avatar} alt="avatar" />
-//     </div>
-//     <Upload showUploadList={false}>
-//       <div className={styles.button_view}>
-//         <Button>
-//           <UploadOutlined />
-//           更换头像
-//         </Button>
-//       </div>
-//     </Upload>
-//   </>
-// );
+//头像组件 方便以后独立，增加裁剪之类的功能
+const AvatarView = ({ avatar }: { avatar: string }) => (
+  <>
+    <div className={styles.avatar_title}>头像</div>
+    <div className={styles.avatar}>
+      <img src={avatar} alt="avatar" />
+    </div>
+    <Upload showUploadList={false}>
+      <div className={styles.button_view}>
+        <Button>
+          <UploadOutlined />
+          更换头像
+        </Button>
+      </div>
+    </Upload>
+  </>
+);
 
 const BaseView: React.FC = () => {
   const {  data:loginUser, loading } = useRequest(() => {
     return currentUser();
   });
 
-  // const getAvatarURL = () => {
-  //   if (loginUser) {
-  //     if (loginUser.avatar) {
-  //       return loginUser.avatar;
-  //     }
-  //     return '用户无头像'
-  //   }
-  //   return '未检测到currentUser';
-  // };
+  const getAvatarURL = () => {
+    if (loginUser) {
+      if (loginUser.avatar) {
+        return loginUser.avatar;
+      }
+      return '用户无头像'
+    }
+    return '未检测到currentUser';
+  };
 
   const handleFinish = async (fields: API.CurrentUser) => {
     const hide = message.loading('正在修改');
@@ -165,7 +165,7 @@ const BaseView: React.FC = () => {
             </ProForm>
           </div>
           <div className={styles.right}>
-            {/*<AvatarView avatar={getAvatarURL()} />*/}
+            <AvatarView avatar={getAvatarURL()} />
             {/*{console.log(getAvatarURL())}*/}
           </div>
         </>
